@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BVLGARI ETERNAL — Digital Product Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --emerald: #0A3622;
+      --emerald-deep: #062416;
+      --ivory: #FAF8F5;
+      --ivory-warm: #F3EFE7;
+      --obsidian: #141414;
+      --gold: #C5A059;
+      --gold-bright: #DFBE78;
+      --gold-border: rgba(197, 160, 89, 0.42);
+      --border-subtle: #E6DFD3;
+      --text-muted: #787167;
+      --text-secondary: #4A463F;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #123624 0%, #0A140F 55%, #070707 100%);
+      color: var(--ivory);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 14px 36px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      background: rgba(20, 20, 20, 0.78);
+      border: 1px solid var(--gold-border);
+      padding: 8px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+    }
+
+    .toolbar-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .size-btn {
+      background: transparent;
+      border: 1px solid rgba(250, 248, 245, 0.2);
+      color: var(--ivory);
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .size-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--obsidian);
+    }
+
+    .phone-frame {
+      width: 393px;
+      height: 820px;
+      max-width: 100%;
+      background: var(--ivory);
+      border-radius: 46px;
+      border: 8px solid #1C1C1C;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(197, 160, 89, 0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: width 0.25s ease, height 0.25s ease;
+    }
+    .phone-frame.compact { width: 356px; height: 700px; border-radius: 36px; }
+    .phone-frame.android { width: 412px; height: 845px; border-radius: 34px; }
+
+    .safe-notch {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 5;
+    }
+    .safe-notch.dark { background: var(--emerald-deep); }
+    .safe-notch.light { background: var(--ivory); }
+    .dynamic-island {
+      width: 96px;
+      height: 20px;
+      border-radius: 999px;
+      background: #0A0A0A;
+    }
+
+    /* SCREEN 1: LAUNCHER */
+    .launcher {
+      flex: 1;
+      background: linear-gradient(180deg, var(--emerald-deep) 0%, var(--emerald) 55%, var(--obsidian) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 20px 26px;
+      overflow-y: auto;
+      text-align: center;
+    }
+
+    .serif-display { font-family: 'Cinzel', Georgia, serif; }
+    .serif-editorial { font-family: 'Playfair Display', Georgia, serif; }
+
+    .brand-wordmark {
+      font-size: 30px;
+      color: var(--gold-bright);
+      letter-spacing: 8px;
+      font-weight: 600;
+    }
+    .brand-subline {
+      font-size: 10px;
+      letter-spacing: 2.1px;
+      color: #C7C1B5;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .compat-pill {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(20, 20, 20, 0.65);
+      border: 1px solid var(--gold-border);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--ivory);
+    }
+
+    .beacon-stage {
+      position: relative;
+      width: 210px;
+      height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 18px 0;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-bright);
+      background: rgba(197, 160, 89, 0.08);
+      animation: nfcPulse 2s ease-out infinite;
+    }
+    .pulse-ring.delay { animation-delay: 0.8s; }
+
+    @keyframes nfcPulse {
+      0% { transform: scale(0.92); opacity: 0.75; }
+      100% { transform: scale(1.48); opacity: 0; }
+    }
+
+    .clasp-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nfc-float {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold-bright);
+      color: var(--obsidian);
+      border: 2px solid var(--obsidian);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.38);
+    }
+
+    .launcher-h1 {
+      font-size: 20px;
+      color: var(--ivory);
+      margin-bottom: 8px;
+    }
+    .launcher-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #C7C1B5;
+      margin-bottom: 14px;
+    }
+
+    .status-box {
+      width: 100%;
+      background: rgba(10, 54, 34, 0.75);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ivory);
+      margin-bottom: 16px;
+    }
+
+    .btn-gold {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 16px;
+      background: linear-gradient(135deg, #DFBE78, #C5A059, #A8823D);
+      color: var(--obsidian);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(197, 160, 89, 0.3);
+      margin-bottom: 10px;
+    }
+    .btn-outline-gold {
+      width: 100%;
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: rgba(20, 20, 20, 0.78);
+      border: 1px solid var(--gold-border);
+      color: var(--gold-bright);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .footer-cap {
+      margin-top: 18px;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: rgba(250, 248, 245, 0.55);
+      font-weight: 600;
+    }
+
+    /* PASSPORT SHELL */
+    .passport-shell {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      background: var(--ivory);
+      color: var(--obsidian);
+      min-height: 0;
+    }
+    .passport-shell.active { display: flex; }
+
+    .persistent-header {
+      background: var(--ivory);
+      padding: 4px 15px 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .nav-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--ivory-warm);
+      border: 1px solid var(--border-subtle);
+      color: var(--emerald);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .nav-center { text-align: center; flex: 1; }
+    .nav-brand {
+      font-size: 20px;
+      color: var(--gold);
+      letter-spacing: 5px;
+    }
+    .nav-sub {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      color: var(--emerald);
+    }
+    .wallet-chip {
+      background: var(--obsidian);
+      color: var(--gold-bright);
+      border: 1px solid var(--gold-border);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, #141414 0%, #1A1C1A 55%, #062416 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 16px;
+      padding: 12px 13px;
+      color: var(--ivory);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+    }
+    .hero-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      color: var(--gold-bright);
+      background: rgba(10, 54, 34, 0.85);
+      border: 1px solid var(--gold-border);
+      border-radius: 999px;
+      padding: 3px 8px;
+      margin-bottom: 6px;
+    }
+    .hero-bag-name {
+      font-size: 15.5px;
+      line-height: 1.28;
+      color: var(--ivory);
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: 11.5px;
+    }
+    .hero-price { font-weight: 700; color: var(--gold-bright); }
+    .hero-serial { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #C7C1B5; }
+    .age-pill {
+      margin-top: 9px;
+      background: rgba(250, 248, 245, 0.08);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 9px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--ivory);
+    }
+
+    .tab-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 13px 15px 20px;
+    }
+    .tab-pane { display: none; flex-direction: column; gap: 12px; }
+    .tab-pane.active { display: flex; }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 12px rgba(10, 31, 20, 0.06);
+    }
+    .dark-banner {
+      background: var(--obsidian);
+      color: var(--ivory);
+      border-radius: 16px;
+      padding: 15px;
+      border: 1px solid var(--gold-border);
+    }
+    .emerald-banner {
+      background: var(--emerald);
+      color: var(--ivory);
+      border-radius: 16px;
+      padding: 15px;
+      border: 1px solid var(--gold-border);
+    }
+    .eyebrow {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .pill-gold {
+      display: inline-block;
+      background: rgba(10, 54, 34, 0.9);
+      border: 1px solid var(--gold-border);
+      color: var(--gold-bright);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.9px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 7px;
+    }
+    .token-bar {
+      margin: 10px 0;
+      background: var(--ivory-warm);
+      border: 1px solid var(--border-subtle);
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--emerald);
+    }
+    .kv-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+    .kv-val { font-size: 12.5px; color: var(--obsidian); margin-top: 2px; line-height: 1.4; font-weight: 500; }
+    .divider { height: 1px; background: var(--border-subtle); margin: 9px 0; }
+
+    .cert-outer {
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-deep), var(--obsidian));
+      border-radius: 18px;
+      padding: 4px;
+      color: var(--ivory);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+    }
+    .cert-inner {
+      border: 1px solid var(--gold-border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .mono { font-family: ui-monospace, Menlo, monospace; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+    .kpi-box {
+      background: var(--ivory-warm);
+      border: 1px solid var(--border-subtle);
+      border-radius: 11px;
+      padding: 9px 6px;
+      text-align: center;
+    }
+    .kpi-box.emerald { background: var(--emerald); border-color: var(--gold-border); color: var(--ivory); }
+    .kpi-num { font-family: 'Cinzel', serif; font-size: 17px; font-weight: 700; }
+    .kpi-lbl { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+    .kpi-box.emerald .kpi-lbl { color: var(--ivory); }
+
+    .btn-emerald-outline {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1.4px solid var(--emerald);
+      color: var(--emerald);
+      border-radius: 13px;
+      padding: 13px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Timeline & Origin */
+    .tier-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 15px;
+      padding: 13px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+    .tier-card.open { border-color: var(--gold); }
+    .tier-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-subtle); }
+    .tier-card.open .tier-details { display: block; }
+    .audit-box { background: var(--ivory-warm); border-radius: 10px; padding: 10px; margin-top: 8px; font-size: 11.5px; }
+
+    /* Impact Bars */
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: var(--ivory-warm);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .progress-fill-emerald { height: 100%; background: var(--emerald); border-radius: 999px; }
+    .progress-fill-gold { height: 100%; background: var(--gold); border-radius: 999px; }
+
+    /* VIP Spa */
+    .service-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 15px;
+      padding: 13px;
+      cursor: pointer;
+    }
+    .service-card.selected { border: 1.6px solid var(--gold); background: #FFFDF9; }
+    .chips-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 8px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .chip.active { background: var(--emerald); border-color: var(--gold); color: var(--gold-bright); }
+
+    /* Bottom 5-tab Bar */
+    .bottom-tabs {
+      background: var(--obsidian);
+      border-top: 1px solid var(--gold-border);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px 12px;
+      flex-shrink: 0;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: rgba(250, 248, 245, 0.58);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tab-btn.active { color: var(--gold-bright); }
+    .tab-icon { font-size: 16px; line-height: 1; }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(6, 18, 12, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 20;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      width: 100%;
+      background: var(--obsidian);
+      color: var(--ivory);
+      border: 1px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 16px;
+    }
+    .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .modal-close {
+      width: 30px; height: 30px; border-radius: 50%; border: none;
+      background: rgba(255,255,255,0.1); color: var(--ivory); cursor: pointer; font-weight: 700;
+    }
+    .banner-success {
+      background: #E8F3EC;
+      color: var(--emerald);
+      border: 1px solid rgba(10, 54, 34, 0.25);
+      border-radius: 11px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="toolbar-label">Device Size</span>
+    <button class="size-btn active" onclick="setSize('standard', this)">iPhone 16 Pro (393px)</button>
+    <button class="size-btn" onclick="setSize('compact', this)">iPhone SE (356px)</button>
+    <button class="size-btn" onclick="setSize('android', this)">Android Flagship (412px)</button>
+  </div>
+
+  <div id="phoneFrame" class="phone-frame">
+    <div id="safeNotch" class="safe-notch dark"><div class="dynamic-island"></div></div>
+
+    <!-- SCREEN 1: LAUNCHER -->
+    <section id="launcherScreen" class="launcher">
+      <div class="brand-wordmark serif-display">BVLGARI</div>
+      <div class="brand-subline">ROMA • ETERNAL DIGITAL PRODUCT PASSPORT</div>
+
+      <div class="compat-pill">Compatible with All iOS &amp; Android Phones</div>
+
+      <div class="beacon-stage">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring delay"></div>
+        <div class="clasp-wrap">
+          <svg width="144" height="144" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#E6C987"/><stop offset="50%" stop-color="#C5A059"/><stop offset="100%" stop-color="#8F6E31"/>
+              </linearGradient>
+              <linearGradient id="gEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#125537"/><stop offset="60%" stop-color="#0A3622"/><stop offset="100%" stop-color="#051E13"/>
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="90" fill="#141414" stroke="url(#gGold)" stroke-width="2.5"/>
+            <circle cx="100" cy="100" r="82" fill="none" stroke="#C5A059" stroke-opacity="0.35" stroke-dasharray="3 4"/>
+            <path d="M100 32 L144 58 L152 104 L126 154 L100 172 L74 154 L48 104 L56 58 Z" fill="url(#gGold)"/>
+            <path d="M100 38 L138 61 L145 103 L122 148 L100 164 L78 148 L55 103 L62 61 Z" fill="url(#gEmerald)"/>
+            <polygon points="100,46 116,56 116,74 100,84 84,74 84,56" fill="#0F472D" stroke="url(#gGold)" stroke-width="2"/>
+            <polygon points="66,68 82,60 82,82 68,92 58,82" fill="#141414" stroke="url(#gGold)" stroke-width="1.8"/>
+            <polygon points="134,68 118,60 118,82 132,92 142,82" fill="#141414" stroke="url(#gGold)" stroke-width="1.8"/>
+            <polygon points="100,87 118,98 114,122 100,132 86,122 82,98" fill="#082B1B" stroke="url(#gGold)" stroke-width="2"/>
+            <path d="M64 103 L82 96 L84 109 L69 114 Z" fill="url(#gGold)"/>
+            <path d="M136 103 L118 96 L116 109 L131 114 Z" fill="url(#gGold)"/>
+            <polygon points="100,136 112,144 100,158 88,144" fill="url(#gGold)"/>
+          </svg>
+          <div class="nfc-float">NFC</div>
+        </div>
+      </div>
+
+      <h1 class="launcher-h1 serif-editorial">Authenticate Your Creation</h1>
+      <p class="launcher-desc">
+        Hold your smartphone over the Serpenti snakehead clasp to verify the NXP NTAG DNA chip, or scan the interior backup QR tag.
+      </p>
+
+      <div id="launcherStatus" class="status-box">Ready for CoreNFC &amp; Android NFC tap</div>
+
+      <button class="btn-gold" onclick="simulateNfc()">Tap NFC on Serpenti Clasp</button>
+      <button class="btn-outline-gold" onclick="openQrModal()">Scan Interior Backup QR Tag</button>
+
+      <div class="footer-cap">SECURED BY AURA BLOCKCHAIN CONSORTIUM • LVMH PROVENANCE</div>
+    </section>
+
+    <!-- AUTHENTICATED 5-TAB PASSPORT -->
+    <section id="passportShell" class="passport-shell">
+      <header class="persistent-header">
+        <div class="nav-bar">
+          <button class="nav-icon-btn" title="Return to Scanner" onclick="returnToLauncher()">NFC</button>
+          <div class="nav-center">
+            <div class="nav-brand serif-display">BVLGARI</div>
+            <div class="nav-sub">AURA BLOCKCHAIN CONSORTIUM • ETERNAL DPP</div>
+          </div>
+          <button class="wallet-chip" onclick="openWalletModal()">Wallet</button>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-top">
+            <div>
+              <div class="auth-badge">100% AUTHENTICATED • AURA BLOCKCHAIN</div>
+              <div class="hero-bag-name serif-editorial">Serpenti Forever Mini Top Handle Bag</div>
+              <div class="hero-meta">
+                <span class="hero-price">£5,200 / €6,100</span>
+                <span>•</span>
+                <span class="hero-serial">#BVL-SRP-2026-8841</span>
+              </div>
+            </div>
+            <svg width="54" height="54" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="88" fill="#141414" stroke="#C5A059" stroke-width="4"/>
+              <path d="M100 36 L140 60 L146 104 L122 150 L100 166 L78 150 L54 104 L60 60 Z" fill="#0A3622" stroke="#C5A059" stroke-width="5"/>
+              <polygon points="100,86 118,98 114,122 100,132 86,122 82,98" fill="#141414" stroke="#C5A059" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="age-pill">Crafted: Oct 2026 • Age: 1 Month (Mint Condition)</div>
+        </div>
+      </header>
+
+      <main class="tab-scroll">
+        <!-- TAB 1: PROFILE & CERT -->
+        <div id="tab-profile" class="tab-pane active">
+          <div class="card">
+            <div class="eyebrow">Registered Owner Profile</div>
+            <div class="serif-editorial" style="font-size:17px;margin-top:2px;">Shreeta S.</div>
+            <div class="token-bar">Encrypted Token #BVL-VIP-90421 • GDPR Protected</div>
+            <div class="kv-label">Boutique of Origin</div>
+            <div class="kv-val">Bvlgari — Selfridges Exchange Square, Manchester</div>
+            <div class="divider"></div>
+            <div class="kv-label">Purchase Date &amp; Bag Age</div>
+            <div class="kv-val">Purchased 25 October 2026 (Age: 31 Days / 1 Month Old • 1st Registered Owner — Never Resold)</div>
+          </div>
+
+          <div class="cert-outer">
+            <div class="cert-inner">
+              <div style="font-size:9px;letter-spacing:1.4px;color:var(--gold-bright);font-weight:700;">AURA BLOCKCHAIN CONSORTIUM</div>
+              <div class="serif-display" style="font-size:15px;margin-top:3px;">DIGITAL OWNERSHIP CERTIFICATE</div>
+              <div style="height:1px;background:rgba(197,160,89,0.35);margin:10px 0;"></div>
+              <div style="font-size:9.5px;color:#C7C1B5;font-weight:700;">UNIQUE CERTIFICATE ID</div>
+              <div class="mono" style="font-size:13px;color:var(--gold-bright);margin:3px 0 9px;">CERT-AURA-BVL-2026-8841</div>
+              <div style="font-size:9.5px;color:#C7C1B5;font-weight:700;">AURA BLOCKCHAIN HASH</div>
+              <div class="mono" style="font-size:13px;color:var(--gold-bright);margin:3px 0 10px;">0x9f84c71a...88e31c</div>
+              <div style="background:rgba(20,20,20,0.55);border:1px solid rgba(197,160,89,0.28);border-radius:10px;padding:10px;">
+                <div style="font-size:9.5px;color:var(--gold-bright);font-weight:700;letter-spacing:0.8px;">DUAL HARDWARE VERIFICATION</div>
+                <div style="font-size:12px;line-height:1.4;margin-top:3px;">NXP NTAG DNA NFC Chip in Serpenti Clasp + Avery Dennison Serialized Interior QR Tag</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="eyebrow" style="color:var(--emerald);">Care &amp; Repair Snapshot</div>
+            <div style="font-size:12.5px;color:var(--text-secondary);margin-top:5px;">0 Structural Repairs • 1 Complimentary Conditioning • 100% Resale Condition Score</div>
+            <div class="kpi-grid">
+              <div class="kpi-box"><div class="kpi-num">0</div><div class="kpi-lbl">Repairs</div></div>
+              <div class="kpi-box"><div class="kpi-num">1</div><div class="kpi-lbl">Conditioning</div></div>
+              <div class="kpi-box emerald"><div class="kpi-num" style="color:var(--gold-bright);">100%</div><div class="kpi-lbl">Resale Score</div></div>
+            </div>
+          </div>
+
+          <button class="btn-gold" style="margin-bottom:0;" onclick="openWalletModal()">Add Certificate to Apple / Google Wallet</button>
+          <button class="btn-emerald-outline" onclick="openTransferModal()">Transfer Ownership (Resale / Gift)</button>
+        </div>
+
+        <!-- TAB 2: ORIGIN -->
+        <div id="tab-origin" class="tab-pane">
+          <div class="dark-banner">
+            <span class="pill-gold">POWERED BY FAIRLY MADE®</span>
+            <div class="serif-display" style="font-size:16px;">Italian Supply Chain Traceability</div>
+            <div style="font-size:12px;color:#C7C1B5;margin-top:4px;">Tap any tier card below to reveal batch verification timestamps.</div>
+          </div>
+
+          <div class="tier-card open" onclick="this.classList.toggle('open')">
+            <div style="font-size:9.5px;font-weight:700;color:var(--emerald);letter-spacing:1px;">TIER 3 • RAW LEATHER SOURCING</div>
+            <div class="serif-editorial" style="font-size:15px;margin-top:3px;">LWG Gold-Rated Italian Calfskin Tannery</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">Conceria Val d’Arno • Tuscany, Italy • Batch #IT-409</div>
+            <div class="tier-details">
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.45;">Full-grain European calfskin retanned in closed-loop water recycling drums with chrome-free finishing.</div>
+              <div class="audit-box">
+                <div><strong>Timestamp:</strong> <span class="mono">2026-09-18 09:42:11 CET</span></div>
+                <div><strong>Fairly Made Audit:</strong> <span class="mono">FM-TUS-2026-4091</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tier-card" onclick="this.classList.toggle('open')">
+            <div style="font-size:9.5px;font-weight:700;color:var(--emerald);letter-spacing:1px;">TIER 2 • HARDWARE CASTING</div>
+            <div class="serif-editorial" style="font-size:15px;margin-top:3px;">Gold-Plated Brass Serpenti Snakehead Clasp</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">Bvlgari Foundry • Valenza, Italy</div>
+            <div class="tier-details">
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.45;">Lost-wax cast recycled brass with hand-set malachite enamel scales and sealed NXP NTAG DNA silicon.</div>
+              <div class="audit-box">
+                <div><strong>Timestamp:</strong> <span class="mono">2026-09-29 14:15:38 CET</span></div>
+                <div><strong>Fairly Made Audit:</strong> <span class="mono">FM-VLZ-2026-1184</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tier-card" onclick="this.classList.toggle('open')">
+            <div style="font-size:9.5px;font-weight:700;color:var(--emerald);letter-spacing:1px;">TIER 1 • ARTISAN CRAFTSMANSHIP</div>
+            <div class="serif-editorial" style="font-size:15px;margin-top:3px;">Hand-Assembled in Florence Workshop</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">Manifattura Bvlgari • Florence, Italy • 42 hours of craftsmanship</div>
+            <div class="tier-details">
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.45;">Hand-edged and stitched by Master Maroquinerie Artisan #MA-214 with serialized interior QR tag.</div>
+              <div class="audit-box">
+                <div><strong>Timestamp:</strong> <span class="mono">2026-10-11 17:08:52 CET</span></div>
+                <div><strong>Fairly Made Audit:</strong> <span class="mono">FM-FLR-2026-8841</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: IMPACT -->
+        <div id="tab-impact" class="tab-pane">
+          <div class="emerald-banner">
+            <span class="pill-gold">BVLGARI 2023 ENVIRONMENTAL POLICY</span>
+            <div class="serif-display" style="font-size:16px;">Sustainability &amp; ESG Scorecard</div>
+            <div style="font-size:12px;color:#C7C1B5;margin-top:4px;">Audited environmental metrics for #BVL-SRP-2026-8841.</div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;"><span class="eyebrow">Supply Chain Traceability</span><strong style="color:var(--emerald);">100%</strong></div>
+            <div class="serif-editorial" style="font-size:16px;margin-top:4px;">100% Verified Tier 1–4</div>
+            <div class="progress-track"><div class="progress-fill-emerald" style="width:100%;"></div></div>
+            <div style="font-size:12px;color:var(--text-secondary);">Fairly Made® audited from Tuscan tannery &amp; Valenza foundry to Florence workshop.</div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;"><span class="eyebrow">Carbon Footprint</span><strong style="color:#9A6F21;">Offset</strong></div>
+            <div class="serif-editorial" style="font-size:16px;margin-top:4px;">14.2 kg CO₂e (Offset via LVMH Forestry Initiative)</div>
+            <div class="progress-track"><div class="progress-fill-gold" style="width:86%;"></div></div>
+            <div style="font-size:12px;color:var(--text-secondary);">Scope 1–3 cradle-to-boutique emissions compensated via LVMH Forestry Initiative.</div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;"><span class="eyebrow">Circularity Score</span><strong style="color:var(--emerald);">92%</strong></div>
+            <div class="serif-editorial" style="font-size:16px;margin-top:4px;">92% Recyclable Brass Hardware &amp; Chrome-Free Lining</div>
+            <div class="progress-track"><div class="progress-fill-emerald" style="width:92%;"></div></div>
+            <div style="font-size:12px;color:var(--text-secondary);">Modular Serpenti hardware enables component refurbishment without structural leather loss.</div>
+          </div>
+        </div>
+
+        <!-- TAB 4: LOGBOOK -->
+        <div id="tab-logbook" class="tab-pane">
+          <div class="dark-banner">
+            <span class="pill-gold">IMMUTABLE AURA CARE TIMELINE</span>
+            <div class="serif-display" style="font-size:16px;">Full Repair &amp; Service History</div>
+            <div style="font-size:12px;color:#C7C1B5;margin-top:4px;">Append-only blockchain record of authentication and atelier care.</div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <strong style="font-size:11.5px;color:var(--emerald);">25 Oct 2026</strong>
+              <span style="background:#E8F3EC;color:var(--emerald);padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;">Brand New / Mint</span>
+            </div>
+            <div class="serif-editorial" style="font-size:15px;margin-top:5px;">Initial Purchase &amp; Aura Blockchain Passport Activation</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">Bvlgari Selfridges Manchester</div>
+            <div class="audit-box">Tx: <span class="mono">0x9f84c71a...88e31c</span> • Block #19,482,110</div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <strong style="font-size:11.5px;color:var(--emerald);">12 Nov 2026</strong>
+              <span style="background:#E8F3EC;color:var(--emerald);padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;">Condition Grade: A+ / Mint</span>
+            </div>
+            <div class="serif-editorial" style="font-size:15px;margin-top:5px;">Complimentary Protective Leather Conditioning &amp; Clasp Check</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">Bvlgari Client Services</div>
+            <div class="audit-box">Tx: <span class="mono">0x3b12e90f...44d19a</span> • Block #19,614,008</div>
+          </div>
+
+          <div id="logbookToast" class="banner-success" style="display:none;">Verified resale service history ledger prepared &amp; copied for buyer proof.</div>
+          <button class="btn-gold" style="margin-bottom:0;" onclick="shareHistory()">Share Verified Service History</button>
+        </div>
+
+        <!-- TAB 5: VIP SPA -->
+        <div id="tab-spa" class="tab-pane">
+          <div class="emerald-banner">
+            <span class="pill-gold">VIP CLIENT RETENTION</span>
+            <div class="serif-display" style="font-size:15.5px;">Bvlgari Selfridges Exchange Square, Manchester</div>
+            <div style="font-size:11.5px;color:#C7C1B5;margin-top:4px;">1 Exchange Square Central, Manchester M3 1BD</div>
+          </div>
+
+          <div class="eyebrow" style="color:var(--emerald);">1. Select Service</div>
+          <div class="service-card selected" onclick="selectService(this, 'Complimentary VIP Handbag Spa & Cleaning (£0)')">
+            <div class="serif-editorial" style="font-size:14px;">Complimentary VIP Handbag Spa &amp; Cleaning (£0)</div>
+            <div style="font-size:11.5px;color:var(--text-secondary);margin-top:3px;">Hydrating calfskin treatment, hardware polish &amp; NFC clasp check.</div>
+          </div>
+          <div class="service-card" onclick="selectService(this, 'Official Artisan Leather & Clasp Repair')">
+            <div class="serif-editorial" style="font-size:14px;">Official Artisan Leather &amp; Clasp Repair</div>
+            <div style="font-size:11.5px;color:var(--text-secondary);margin-top:3px;">Boutique assessment logged to your immutable Aura logbook.</div>
+          </div>
+          <div class="service-card" onclick="selectService(this, 'Official Bvlgari Eternal Trade-In Valuation (Est. £3,650 credit)')">
+            <div class="serif-editorial" style="font-size:14px;">Official Bvlgari Eternal Trade-In Valuation (Est. £3,650 credit based on 1-month age &amp; Mint condition)</div>
+            <div style="font-size:11.5px;color:var(--text-secondary);margin-top:3px;">Instant boutique credit toward your next Bvlgari creation.</div>
+          </div>
+
+          <div class="eyebrow" style="color:var(--emerald);">2. Date &amp; Time Slot</div>
+          <div class="chips-row" id="dateChips">
+            <button class="chip active" onclick="pickChip('dateChips', this)">Thu 27 Nov</button>
+            <button class="chip" onclick="pickChip('dateChips', this)">Fri 28 Nov</button>
+            <button class="chip" onclick="pickChip('dateChips', this)">Sat 29 Nov</button>
+          </div>
+          <div class="chips-row" id="timeChips">
+            <button class="chip" onclick="pickChip('timeChips', this)">10:30</button>
+            <button class="chip active" onclick="pickChip('timeChips', this)">12:00</button>
+            <button class="chip" onclick="pickChip('timeChips', this)">14:30</button>
+            <button class="chip" onclick="pickChip('timeChips', this)">16:15</button>
+          </div>
+
+          <div id="spaConfirmBox" class="banner-success" style="display:none;"></div>
+          <button class="btn-gold" style="margin-bottom:0;" onclick="confirmSpa()">Confirm Selfridges Appointment</button>
+        </div>
+      </main>
+
+      <!-- BOTTOM 5-TAB BAR -->
+      <nav class="bottom-tabs">
+        <button class="tab-btn active" onclick="switchTab('profile', this)"><span class="tab-icon">🛡</span><span>Profile &amp; Cert</span></button>
+        <button class="tab-btn" onclick="switchTab('origin', this)"><span class="tab-icon">🌿</span><span>Origin</span></button>
+        <button class="tab-btn" onclick="switchTab('impact', this)"><span class="tab-icon">✦</span><span>Impact</span></button>
+        <button class="tab-btn" onclick="switchTab('logbook', this)"><span class="tab-icon">📖</span><span>Logbook</span></button>
+        <button class="tab-btn" onclick="switchTab('spa', this)"><span class="tab-icon">◈</span><span>VIP Spa</span></button>
+      </nav>
+    </section>
+
+    <!-- QR MODAL -->
+    <div id="qrModal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-top">
+          <div>
+            <div class="serif-display" style="color:var(--gold-bright);font-size:15px;">Interior Backup QR Tag</div>
+            <div style="font-size:11px;color:#C7C1B5;">Avery Dennison Serialized Label</div>
+          </div>
+          <button class="modal-close" onclick="closeModals()">✕</button>
+        </div>
+        <div style="height:170px;border:1px solid var(--gold-border);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0A1912;margin-bottom:14px;">
+          <div style="font-size:38px;color:var(--gold-bright);">▣</div>
+          <div style="font-size:12px;margin-top:8px;">Align interior QR tag within frame</div>
+        </div>
+        <button class="btn-gold" style="margin-bottom:0;" onclick="completeQr()">Capture Serialized QR (#BVL-SRP-2026-8841)</button>
+      </div>
+    </div>
+
+    <!-- WALLET MODAL -->
+    <div id="walletModal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-top">
+          <div>
+            <div class="serif-display" style="color:var(--gold-bright);font-size:15px;">Digital Wallet Pass</div>
+            <div style="font-size:11px;color:#C7C1B5;">Apple Wallet &amp; Google Wallet Ready</div>
+          </div>
+          <button class="modal-close" onclick="closeModals()">✕</button>
+        </div>
+        <div style="background:linear-gradient(135deg,#0A3622,#141414);border:1px solid var(--gold-border);border-radius:14px;padding:13px;margin-bottom:12px;">
+          <div class="serif-display" style="color:var(--gold-bright);font-size:12px;letter-spacing:2px;">BVLGARI ETERNAL</div>
+          <div class="serif-editorial" style="font-size:15px;margin:6px 0;">Serpenti Forever Mini Top Handle Bag</div>
+          <div class="mono" style="font-size:11px;color:#C7C1B5;">CERT-AURA-BVL-2026-8841 • #BVL-VIP-90421</div>
+        </div>
+        <div id="walletToast" class="banner-success" style="display:none;margin-bottom:10px;">Certificate pass packaged for Apple / Google Wallet.</div>
+        <button class="btn-gold" style="margin-bottom:0;" onclick="document.getElementById('walletToast').style.display='block'">Save to Apple / Google Wallet</button>
+      </div>
+    </div>
+
+    <!-- TRANSFER MODAL -->
+    <div id="transferModal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-top">
+          <div>
+            <div class="serif-display" style="color:var(--gold-bright);font-size:15px;">Transfer Ownership</div>
+            <div style="font-size:11px;color:#C7C1B5;">GDPR Zero-Knowledge Resale Token</div>
+          </div>
+          <button class="modal-close" onclick="closeModals()">✕</button>
+        </div>
+        <div style="background:rgba(10,54,34,0.65);border:1px solid var(--gold-border);border-radius:11px;padding:10px;font-size:11.5px;line-height:1.45;margin-bottom:12px;">
+          Personal owner details (Shreeta S., contact info, boutique receipt PII) remain encrypted and are NEVER revealed to the buyer.
+        </div>
+        <div style="background:#0B0B0B;border:1px solid var(--gold-border);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px;">
+          <div style="font-size:9.5px;letter-spacing:1.1px;color:#C7C1B5;">ONE-TIME ENCRYPTED TRANSFER CODE</div>
+          <div id="xferCode" class="mono" style="font-size:19px;color:var(--gold-bright);font-weight:700;margin-top:6px;">BVL-XFER-94F2-8841</div>
+        </div>
+        <button class="btn-gold" style="margin-bottom:0;" onclick="regenXfer()">Generate New Encrypted Code</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentService = 'Complimentary VIP Handbag Spa & Cleaning (£0)';
+
+    function setSize(mode, btn) {
+      const frame = document.getElementById('phoneFrame');
+      frame.classList.remove('compact', 'android');
+      if (mode === 'compact') frame.classList.add('compact');
+      if (mode === 'android') frame.classList.add('android');
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function enterPassport() {
+      document.getElementById('launcherScreen').style.display = 'none';
+      document.getElementById('passportShell').classList.add('active');
+      const notch = document.getElementById('safeNotch');
+      notch.classList.remove('dark');
+      notch.classList.add('light');
+    }
+
+    function returnToLauncher() {
+      document.getElementById('passportShell').classList.remove('active');
+      document.getElementById('launcherScreen').style.display = 'flex';
+      document.getElementById('launcherStatus').textContent = 'Ready for CoreNFC & Android NFC tap';
+      const notch = document.getElementById('safeNotch');
+      notch.classList.remove('light');
+      notch.classList.add('dark');
+    }
+
+    function simulateNfc() {
+      const status = document.getElementById('launcherStatus');
+      status.textContent = 'Detecting NXP NTAG DNA 424 chip in Serpenti clasp...';
+      setTimeout(() => { status.textContent = 'Verifying Aura Blockchain signature...'; }, 450);
+      setTimeout(() => { enterPassport(); }, 950);
+    }
+
+    function openQrModal() { document.getElementById('qrModal').classList.add('open'); }
+    function openWalletModal() {
+      document.getElementById('walletToast').style.display = 'none';
+      document.getElementById('walletModal').classList.add('open');
+    }
+    function openTransferModal() { document.getElementById('transferModal').classList.add('open'); }
+    function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
+
+    function completeQr() {
+      closeModals();
+      enterPassport();
+    }
+
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function regenXfer() {
+      const tok = Math.random().toString(36).substring(2, 6).toUpperCase();
+      document.getElementById('xferCode').textContent = `BVL-XFER-${tok}-8841`;
+    }
+
+    function shareHistory() {
+      const el = document.getElementById('logbookToast');
+      el.style.display = 'block';
+    }
+
+    function selectService(card, label) {
+      currentService = label;
+      document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      document.getElementById('spaConfirmBox').style.display = 'none';
+    }
+
+    function pickChip(containerId, btn) {
+      document.querySelectorAll(`#${containerId} .chip`).forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('spaConfirmBox').style.display = 'none';
+    }
+
+    function confirmSpa() {
+      const d = document.querySelector('#dateChips .chip.active').textContent;
+      const t = document.querySelector('#timeChips .chip.active').textContent;
+      const ref = 'BVL-MCR-' + Math.floor(1000 + Math.random() * 9000);
+      const box = document.getElementById('spaConfirmBox');
+      box.textContent = `Confirmed (${ref}): ${currentService} on ${d} at ${t} — Bvlgari Selfridges Exchange Square, Manchester.`;
+      box.style.display = 'block';
+      alert(`Selfridges Appointment Confirmed\n\nService: ${currentService}\nDate & Time: ${d} at ${t}\nReference: ${ref}`);
+    }
+  </script>
+</body>
+</html>

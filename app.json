@@ -1,0 +1,61 @@
+{
+  "expo": {
+    "name": "BVLGARI ETERNAL",
+    "slug": "bvlgari-eternal-dpp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "bvlgari-eternal",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "backgroundColor": "#0A3622",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.bvlgari.eternal.dpp",
+      "infoPlist": {
+        "NFCReaderUsageDescription": "Hold the top of your iPhone near the Serpenti snakehead clasp to read the encrypted Aura Blockchain NXP NTAG DNA chip.",
+        "NSCameraUsageDescription": "Use your camera to scan the Avery Dennison serialized interior QR tag for digital product passport verification."
+      },
+      "entitlements": {
+        "com.apple.developer.nfc.readersession.formats": [
+          "TAG",
+          "NDEF"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.bvlgari.eternal.dpp",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A3622"
+      },
+      "permissions": [
+        "android.permission.NFC",
+        "android.permission.CAMERA"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow BVLGARI ETERNAL to access your camera to scan the interior serialized QR tag."
+        }
+      ],
+      [
+        "react-native-nfc-manager",
+        {
+          "nfcPermission": "Allow BVLGARI ETERNAL to read the NFC chip embedded in your Serpenti clasp.",
+          "includeNdefEntitlement": true
+        }
+      ],
+      "expo-asset"
+    ],
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
