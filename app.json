@@ -55,7 +55,9 @@
       "expo-asset"
     ],
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/icon.png"
     }
   }
 }
