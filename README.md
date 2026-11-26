@@ -41,3 +41,4 @@ Native cross-platform mobile application (iOS & Android) built with React Native
      npx expo run:android
      ```
 # bvlgari_test1
+# bvlgari_test1
